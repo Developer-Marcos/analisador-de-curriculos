@@ -1,7 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader, UnstructuredHTMLLoader, TextLoader
 from pydantic import BaseModel, Field
 from config import API_KEY
 import os
@@ -12,15 +12,24 @@ def extrair_dados(caminho_arquivo: str) -> str:
 
       try:
             if extensao_arquivo == ".pdf":
-                  dados_extraidos = PyPDFLoader(caminho_arquivo)
+                  try:
+                        dados_extraidos = PyPDFLoader(caminho_arquivo)
+                        documentos = dados_extraidos.load()
+
+                  except Exception:
+                        dados_extraidos = UnstructuredHTMLLoader(caminho_arquivo)
+                        documentos = dados_extraidos.load()
+
             elif extensao_arquivo == ".docx":
                   dados_extraidos = UnstructuredWordDocumentLoader(caminho_arquivo)
+                  documentos = dados_extraidos.load()
+
             elif extensao_arquivo == ".txt":
                   dados_extraidos = TextLoader(caminho_arquivo)
+                  documentos = dados_extraidos.load()
+
             else:
                   raise ValueError("Documento inválido, Por favor, use PDF, DOCX ou TXT.")
-
-            documentos = dados_extraidos.load()
 
       except Exception as error:
             raise ValueError(f"Erro ao carregar o arquivo: {caminho_arquivo}: {error}")
@@ -32,9 +41,6 @@ def extrair_dados(caminho_arquivo: str) -> str:
       
       return dados_completos
       
-
-      
-
 class Analise(BaseModel):
             resumo_curriculo: str = Field(description="Resumo do currículo feito de forma eficaz")
             resumo_candidato: str = Field(description="Resumo do candidato com base no seu currículo")
@@ -82,6 +88,6 @@ prompt = ChatPromptTemplate.from_messages(
 
 chain = prompt | llm | parser
 
-def analisar_curriculo(curriculo: str) -> str:
+def analisar_curriculo(curriculo: str) -> Analise:
       analise_completa = chain.invoke({"texto_curriculo": curriculo})
       return analise_completa

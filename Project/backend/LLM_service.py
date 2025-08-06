@@ -1,8 +1,39 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
+from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader, TextLoader
 from pydantic import BaseModel, Field
 from config import API_KEY
+import os
+
+def extrair_dados(caminho_arquivo: str) -> str:
+      extensao_arquivo = os.path.splitext(caminho_arquivo)[1].lower()
+      documentos = []
+
+      try:
+            if extensao_arquivo == ".pdf":
+                  dados_extraidos = PyPDFLoader(caminho_arquivo)
+            elif extensao_arquivo == ".docx":
+                  dados_extraidos = UnstructuredWordDocumentLoader(caminho_arquivo)
+            elif extensao_arquivo == ".txt":
+                  dados_extraidos = TextLoader(caminho_arquivo)
+            else:
+                  raise ValueError("Documento inválido, Por favor, use PDF, DOCX ou TXT.")
+
+            documentos = dados_extraidos.load()
+
+      except Exception as error:
+            raise ValueError(f"Erro ao carregar o arquivo: {caminho_arquivo}: {error}")
+      
+      dados_completos = "\n\n".join([doc.page_content for doc in documentos])
+
+      if not dados_completos.strip():
+            raise ValueError("O arquivo não contém texto ou não pôde ser extraído.")
+      
+      return dados_completos
+      
+
+      
 
 class Analise(BaseModel):
             resumo_curriculo: str = Field(description="Resumo do currículo feito de forma eficaz")

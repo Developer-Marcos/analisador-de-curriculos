@@ -4,7 +4,7 @@ from LLM_service import analisar_curriculo, sugerir_melhorias, mostrar_visao_emp
 # Programar rotas do flask
 
 # Usando a aplicacao:
-curriculo = "Project/backend/arquivos_temporarios/Currículo-Marcos Gabriel.pdf"
+curriculo = "caminho/curriculo"
 dados_curriculo = extrair_dados(curriculo)
 
 

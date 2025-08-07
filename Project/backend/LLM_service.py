@@ -1,6 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
-from parsers import parser_analise, parser_melhorias, Analise, Melhorias
+from parsers import parser_analise, parser_melhorias, parser_empresa, Analise, Melhorias, Visao_empresa
 from config import API_KEY
       
 llm = ChatGoogleGenerativeAI(
@@ -52,6 +52,8 @@ comportamento_melhoria = """
 Você é um consultor de desenvolvimento de carreira altamente experiente e empático. Sua missão é ir além da análise de currículos e fornecer conselhos práticos para o crescimento profissional de um candidato.
 Sua tarefa é analisar o currículo e os resultados de uma análise anterior para sugerir ações concretas e personalizadas que ajudem o candidato a preencher lacunas e fortalecer seu perfil.
 
+(Fale na segunda pessoa)
+
 REGRAS E RESTRIÇÕES DE SAÍDA:
 1. Formato OBRIGATÓRIO: A saída deve ser um OBJETO JSON VÁLIDO e BEM FORMADO. Não inclua nenhum texto adicional antes ou depois do JSON.
 2. Codificação: Use UTF-8 para todos os caracteres.
@@ -77,5 +79,46 @@ prompt_melhorias = ChatPromptTemplate.from_messages(
 chain_melhorias = prompt_melhorias | llm | parser_melhorias
 
 def sugerir_melhorias(curriculo: str, analise_curriculo: Analise) -> Melhorias:
-      melhorias_sugeridas = chain_melhorias.invoke({"texto_curriculo": curriculo, "analise_curriculo": analise_curriculo.model_dump()})
+      melhorias_sugeridas = chain_melhorias.invoke({"texto_curriculo": curriculo, "analise_curriculo": analise_curriculo})
       return melhorias_sugeridas
+
+# Lógica da visao da empresa sobre o candidato
+comportamento_visao_empresa = """
+Você é um Head Recruiter em uma empresa. Sua tarefa é analisar um currículo, uma avaliação prévia desse currículo e a área de atuação da empresa para fornecer uma visão estratégica e imparcial sobre a adequação do candidato.
+
+O objetivo é ir além dos pontos óbvios, usando a análise prévia como base para extrair insights mais profundos sobre o alinhamento do candidato com o mercado e o potencial de crescimento. A avaliação deve ser focada na área de atuação da empresa para ser o mais relevante possível.
+
+REGRAS E RESTRIÇÕES DE SAÍDA:
+1. Formato OBRIGATÓRIO: A saída deve ser um OBJETO JSON VÁLIDO e BEM FORMADO. Não inclua nenhum texto adicional antes ou depois do JSON.
+2. Seja Objetivo: As análises devem ser baseadas estritamente nas informações fornecidas e na análise prévia.
+3. Consistência: Mantenha um tom profissional e direto, como em um relatório interno de contratação.
+
+ESTRUTURA JSON DETALHADA:
+
+O objeto JSON deve conter EXATAMENTE as seguintes chaves, com seus respectivos tipos de dados e conteúdo conforme descrito:
+
+`alinhamento_mercado` (string): Uma análise concisa de como as habilidades e experiências do candidato se comparam com as tendências e demandas atuais do mercado de tecnologia, **considerando a área de atuação da empresa.**
+`posicoes_sugeridas` (array de strings): Uma lista de 1 a 3 cargos ou posições que seriam mais adequados para o candidato, baseando-se em seu perfil e potencial.
+`visao_contratacao_positiva` (array de strings): Forneça de 3 a 5 motivos persuasivos e específicos pelos quais este candidato seria uma excelente contratação, focando no valor que ele traria para a empresa.
+`visao_contratacao_negativa` (array de strings): Liste de 3 a 5 pontos de preocupação ou hesitação que um gerente de contratação teria, focando em lacunas, inexperiência ou inconsistências que poderiam ser riscos.
+`pontos_focais_entrevista` (array de strings): Destaque 3 a 5 tópicos, projetos ou habilidades no currículo que seriam ideais para uma entrevista, pois representam as áreas mais fortes ou que merecem mais discussão.
+`potencial_longo_prazo` (string): Uma avaliação do potencial de crescimento do candidato dentro da empresa, considerando sua capacidade de aprendizado, proatividade e como ele pode evoluir para posições de maior responsabilidade.
+
+{format_instructions}"""
+
+prompt_visao_empresas = ChatPromptTemplate.from_messages(
+            [
+                  ("system", comportamento_visao_empresa),
+                  ("human", "Analise o currículo e a análise já feita com foco na área de atuação da empresa. "
+                  "Use este contexto completo para fornecer uma avaliação estratégica.\n\n"
+                  "Área da Empresa: {area_da_empresa}\n"
+                  "Currículo do Candidato:\n{texto_curriculo}\n"
+                  "Análise Prévia:\n{analise_curriculo}")
+            ]
+      ).partial(format_instructions=parser_empresa.get_format_instructions())
+
+chain_visao_empresa = prompt_visao_empresas | llm | parser_empresa
+
+def mostrar_visao_empresa(curriculo: str, analise_curriculo: Analise , area_da_empresa: str) -> Visao_empresa:
+      visao_da_empresa = chain_visao_empresa.invoke({"texto_curriculo": curriculo, "analise_curriculo": analise_curriculo , "area_da_empresa": area_da_empresa})
+      return visao_da_empresa

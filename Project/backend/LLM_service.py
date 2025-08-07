@@ -1,62 +1,17 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
-from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader, UnstructuredHTMLLoader, TextLoader
-from pydantic import BaseModel, Field
+from parsers import parser_analise, parser_melhorias, Analise, Melhorias
 from config import API_KEY
-import os
-
-def extrair_dados(caminho_arquivo: str) -> str:
-      extensao_arquivo = os.path.splitext(caminho_arquivo)[1].lower()
-      documentos = []
-
-      try:
-            if extensao_arquivo == ".pdf":
-                  try:
-                        dados_extraidos = PyPDFLoader(caminho_arquivo)
-                        documentos = dados_extraidos.load()
-
-                  except Exception:
-                        dados_extraidos = UnstructuredHTMLLoader(caminho_arquivo)
-                        documentos = dados_extraidos.load()
-
-            elif extensao_arquivo == ".docx":
-                  dados_extraidos = UnstructuredWordDocumentLoader(caminho_arquivo)
-                  documentos = dados_extraidos.load()
-
-            elif extensao_arquivo == ".txt":
-                  dados_extraidos = TextLoader(caminho_arquivo)
-                  documentos = dados_extraidos.load()
-
-            else:
-                  raise ValueError("Documento inválido, Por favor, use PDF, DOCX ou TXT.")
-
-      except Exception as error:
-            raise ValueError(f"Erro ao carregar o arquivo: {caminho_arquivo}: {error}")
       
-      dados_completos = "\n\n".join([doc.page_content for doc in documentos])
-
-      if not dados_completos.strip():
-            raise ValueError("O arquivo não contém texto ou não pôde ser extraído.")
-      
-      return dados_completos
-      
-class Analise(BaseModel):
-            resumo_curriculo: str = Field(description="Resumo do currículo feito de forma eficaz")
-            resumo_candidato: str = Field(description="Resumo do candidato com base no seu currículo")
-            pontos_fortes: list[str] = Field(description="Pontos fortes do candidato baseando-se no seu currículo")
-            pontos_fracos: list[str] = Field(description="Pontos fracos do candidato com base no seu currículo")
-            sugestoes_melhoria:  list[str] = Field(description="Como o candidato pode melhorar o seu currículo")
-
-parser = JsonOutputParser(pydantic_object=Analise)
-
 llm = ChatGoogleGenerativeAI(
           model="gemini-2.5-flash",
           temperature=0.0,
           api_key=API_KEY
       ) 
-      
-comportamento = """
+
+
+# Lógica da analise do currículo  
+comportamento_analise = """
       Você é um especialista em análise de currículos, com profundo conhecimento em recursos humanos, recrutamento e desenvolvimento de carreira. Sua principal missão é atuar como um mentor, fornecendo feedback construtivo, claro e acionável sobre currículos.
       Realize uma análise abrangente, imparcial e realista , identificando os aspectos mais relevantes do documento e oferecendo insights valiosos para o candidato.
 
@@ -79,15 +34,48 @@ comportamento = """
       {format_instructions}
       """
  
-prompt = ChatPromptTemplate.from_messages(
+prompt_analise = ChatPromptTemplate.from_messages(
             [
-                  ("system", comportamento),
+                  ("system", comportamento_analise),
                   ("human", "Aqui está o currículo para análise:\n\n{texto_curriculo}")
             ]
-      ).partial(format_instructions=parser.get_format_instructions())
+      ).partial(format_instructions=parser_analise.get_format_instructions())
 
-chain = prompt | llm | parser
+chain_analise = prompt_analise | llm | parser_analise
 
 def analisar_curriculo(curriculo: str) -> Analise:
-      analise_completa = chain.invoke({"texto_curriculo": curriculo})
+      analise_completa = chain_analise.invoke({"texto_curriculo": curriculo})
       return analise_completa
+
+# Lógica de como o candidato pode melhorar
+comportamento_melhoria = """
+Você é um consultor de desenvolvimento de carreira altamente experiente e empático. Sua missão é ir além da análise de currículos e fornecer conselhos práticos para o crescimento profissional de um candidato.
+Sua tarefa é analisar o currículo e os resultados de uma análise anterior para sugerir ações concretas e personalizadas que ajudem o candidato a preencher lacunas e fortalecer seu perfil.
+
+REGRAS E RESTRIÇÕES DE SAÍDA:
+1. Formato OBRIGATÓRIO: A saída deve ser um OBJETO JSON VÁLIDO e BEM FORMADO. Não inclua nenhum texto adicional antes ou depois do JSON.
+2. Codificação: Use UTF-8 para todos os caracteres.
+3. Consistência: Mantenha um tom profissional e de mentoria. As sugestões devem ser baseadas nos dados fornecidos e ser realistas.
+
+ESTRUTURA JSON DETALHADA:
+O objeto JSON deve conter EXATAMENTE as seguintes chaves, com seus respectivos tipos de dados e conteúdo conforme descrito:
+
+`recomendacoes_gerais` (array de strings): Forneça de 3 a 5 conselhos estratégicos e de alto nível para o desenvolvimento da carreira do candidato, como 'buscar um mentor na área', 'contribuir para projetos de código aberto' ou 'melhorar sua presença profissional online'.
+`habilidades_sugeridas` (array de strings): Liste de 3 a 5 habilidades (técnicas ou comportamentais) que o candidato deve focar em desenvolver. Para cada habilidade, forneça uma breve justificativa de por que ela é importante para o perfil do candidato.
+`ensino_superior` (array de strings): Com base no currículo e nas ambições do candidato, sugira de 1 a 3 áreas de estudo, cursos de graduação ou pós-graduação que poderiam fortalecer sua base de conhecimento e sua carreira a longo prazo.
+`proximos_passos` (array de strings): Forneça uma lista de 3 a 5 ações concretas e imediatas que o candidato pode tomar para começar seu desenvolvimento, como 'iniciar um pequeno projeto prático para aplicar uma nova habilidade', 'fazer um curso introdutório sobre um tópico sugerido' ou 'revisar o portfólio de projetos'.
+
+{format_instructions}"""
+
+prompt_melhorias = ChatPromptTemplate.from_messages(
+            [
+                  ("system", comportamento_melhoria),
+                  ("human", "Analise o currículo e a análise já feita para sugerir melhorias pessoais.\n\nCurrículo: {texto_curriculo}\nAnálise Anterior: {analise_curriculo}")
+            ]
+      ).partial(format_instructions=parser_melhorias.get_format_instructions())
+
+chain_melhorias = prompt_melhorias | llm | parser_melhorias
+
+def sugerir_melhorias(curriculo: str, analise_curriculo: Analise) -> Melhorias:
+      melhorias_sugeridas = chain_melhorias.invoke({"texto_curriculo": curriculo, "analise_curriculo": analise_curriculo.model_dump()})
+      return melhorias_sugeridas

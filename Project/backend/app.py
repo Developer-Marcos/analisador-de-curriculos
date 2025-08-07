@@ -1,4 +1,5 @@
-from LLM_service import extrair_dados, analisar_curriculo
+from helpers import extrair_dados
+from LLM_service import analisar_curriculo
 
 # Programar rotas do flask
 

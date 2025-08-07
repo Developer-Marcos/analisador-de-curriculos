@@ -1,1 +1,3 @@
-escrever o README.md quando finalizar o projeto
+Analisa todo o perfil profissional de um indivíduo e retorna insights sobre seu currículo, indicando formas de desenvolvimento profissional com base nesse currículo. Além disso, mostra o ponto de vista de empresas de qualquer área sobre esse profissional. Tudo isso utilizando o LangChain como ferramenta principal para orquestrar uma LLM no processamento das features. (O projeto ainda está em desenvolvimento, mas sua versão inicial já é utilizável.)
+
+Utilize a sua chave de API do google gemini em um arquivo .env antes de executar o app.py

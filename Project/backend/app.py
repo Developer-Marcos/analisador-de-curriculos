@@ -1,5 +1,5 @@
-from helpers import extrair_dados
-from LLM_service import analisar_curriculo, sugerir_melhorias, mostrar_visao_empresa
+from LangChain_processing.helpers import extrair_dados
+from LangChain_processing.LLM_service import analisar_curriculo, sugerir_melhorias, mostrar_visao_empresa
 
 # Programar rotas do flask
 

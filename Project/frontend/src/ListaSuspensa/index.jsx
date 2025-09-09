@@ -1,4 +1,4 @@
-const ListaSuspensa = () => {
+const ListaSuspensa = ({aoAlterar, valor}) => {
   const areasDeEmpresas = [
     "Agronegócio",
     "Alimentício",
@@ -49,22 +49,22 @@ const ListaSuspensa = () => {
   ];
 
   return (
-    <div>
-      <label>Área da empresa: </label>
+        <div>
+            <label>Área da empresa: </label>
 
-      <select required>
-            <option value="" disabled selected>
-                  Selecione onde a empresa atua
-            </option>
-            
-            {areasDeEmpresas.map((area, index) => (
-            <option key={index} value={area}>
-                  {area}
-            </option>
-        ))}
-      </select>
-    </div>
-  );
+            <select required value={valor} onChange={e => aoAlterar(e.target.value)}>
+                <option value="" disabled>
+                    Selecione onde a empresa atua
+                </option>
+                
+                {areasDeEmpresas.map((area, index) => (
+                    <option key={index} value={area}>
+                        {area}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
 };
 
 export default ListaSuspensa;

@@ -51,8 +51,14 @@ const Formulario = () => {
             <section className="Formulario">
                   <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-start gap-8">
                         <ListaSuspensa aoAlterar={aoMudarLista} />
-                        <ArquivoPlaceHolder aoAlterar={aoMudarArquivo} />
-                        <Enviar />
+
+                        <div className="flex flex-col items-center gap-4">
+                              <ArquivoPlaceHolder aoAlterar={aoMudarArquivo} />
+                              <Enviar />
+                        </div>
+
+
+                        {/* Conteudo a ser gerado apos o envio do arquivo */}
                         {mensagem && <p>{mensagem}</p>}
 
                         {resultado && (

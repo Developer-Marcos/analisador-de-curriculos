@@ -49,7 +49,7 @@ const Formulario = () => {
 
       return(
             <section className="Formulario">
-                  <form  onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-start gap-8">
                         <ListaSuspensa aoAlterar={aoMudarLista} />
                         <ArquivoPlaceHolder aoAlterar={aoMudarArquivo} />
                         <Enviar />

@@ -49,21 +49,25 @@ const ListaSuspensa = ({aoAlterar, valor}) => {
   ];
 
   return (
-        <div>
-            <label>Área da empresa: </label>
+    <div>
+        <div className="flex flex-col">
+                <label className="text-[#343434] mb-1 text-xl">Área da empresa: </label>
 
-            <select required value={valor} onChange={e => aoAlterar(e.target.value)}>
-                <option value="" disabled>
-                    Selecione onde a empresa atua
-                </option>
-                
-                {areasDeEmpresas.map((area, index) => (
-                    <option key={index} value={area}>
-                        {area}
+                <select className="bg-[#D9D9D9]/44 p-1 text-[#707070] rounded shadow-md" required value={valor} onChange={e => aoAlterar(e.target.value)}>
+                    <option value="" disabled>
+                        Selecione onde a empresa atua
                     </option>
-                ))}
-            </select>
+                    
+                    {areasDeEmpresas.map((area, index) => (
+                        <option key={index} value={area}>
+                            {area}
+                        </option>
+                    ))}
+                </select>
         </div>
+        
+        <label className="text-[#343434]/60 text-xs">Escolha o tipo de empresa que o candidato deseja atuar</label>
+    </div>
     );
 };
 

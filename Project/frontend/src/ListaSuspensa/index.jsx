@@ -54,7 +54,7 @@ const ListaSuspensa = ({aoAlterar, valor}) => {
                 <label className="text-[#343434] mb-1 text-xl">Área da empresa: </label>
 
                 <select className="bg-[#D9D9D9]/44 p-1.5 text-[#707070] rounded shadow-md" required value={valor} onChange={e => aoAlterar(e.target.value)}>
-                    <option value="" disabled>
+                    <option value="" disabled selected>
                         Selecione onde a empresa atua
                     </option>
                     

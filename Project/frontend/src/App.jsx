@@ -8,7 +8,7 @@ function App() {
   <div className="flex flex-col min-h-screen">
       <LimiteHeader />
 
-        <main className="flex-grow flex flex-col items-center p-2">
+        <main className="flex-grow flex flex-col items-center p-2 mt-12">
           <Titulo />
           <Formulario />
         </main>

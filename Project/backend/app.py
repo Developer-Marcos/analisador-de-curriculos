@@ -35,8 +35,7 @@ def processar_curriculo():
         melhorias_sugeridas = sugerir_melhorias(curriculo=dados_curriculo, analise_curriculo=analise_completa)
         visao_da_empresa = mostrar_visao_empresa(curriculo=dados_curriculo, analise_curriculo=analise_completa, area_da_empresa=area_empresa)
     
-        return jsonify({ 
-            "message": "Dados processados com sucesso!", 
+        return jsonify({  
             "areaDaEmpresa": area_empresa, 
             "analise_completa": analise_completa,
             "melhorias_sugeridas": melhorias_sugeridas,

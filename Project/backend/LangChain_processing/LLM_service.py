@@ -45,6 +45,7 @@ chain_analise = prompt_analise | llm | parser_analise
 
 def analisar_curriculo(curriculo: str) -> Analise:
       analise_completa = chain_analise.invoke({"texto_curriculo": curriculo})
+      print("Requisicao 1 completa")
       return analise_completa
 
 # Lógica de como o candidato pode melhorar
@@ -72,7 +73,7 @@ O objeto JSON deve conter EXATAMENTE as seguintes chaves, com seus respectivos t
 prompt_melhorias = ChatPromptTemplate.from_messages(
             [
                   ("system", comportamento_melhoria),
-                  ("human", "Analise o currículo e a análise já feita para sugerir melhorias pessoais.\n\nCurrículo: {texto_curriculo}\nAnálise Anterior: {analise_curriculo}")
+                  ("human", "Analise o currículo e a análise já feita para sugerir melhorias pessoais SEM UTILIZAR MARKDOWN.\n\nCurrículo: {texto_curriculo}\nAnálise Anterior: {analise_curriculo}")
             ]
       ).partial(format_instructions=parser_melhorias.get_format_instructions())
 
@@ -80,6 +81,7 @@ chain_melhorias = prompt_melhorias | llm | parser_melhorias
 
 def sugerir_melhorias(curriculo: str, analise_curriculo: Analise) -> Melhorias:
       melhorias_sugeridas = chain_melhorias.invoke({"texto_curriculo": curriculo, "analise_curriculo": analise_curriculo})
+      print("Requisicao 2 completa")
       return melhorias_sugeridas
 
 # Lógica da visao da empresa sobre o candidato
@@ -121,4 +123,5 @@ chain_visao_empresa = prompt_visao_empresas | llm | parser_empresa
 
 def mostrar_visao_empresa(curriculo: str, analise_curriculo: Analise , area_da_empresa: str) -> Visao_empresa:
       visao_da_empresa = chain_visao_empresa.invoke({"texto_curriculo": curriculo, "analise_curriculo": analise_curriculo , "area_da_empresa": area_da_empresa})
+      print("Requisicao 3 completa")
       return visao_da_empresa

@@ -131,7 +131,7 @@ const Formulario = () => {
                         ${isMelhoriasExpanded ? 'max-h-[9999px]' : 'max-h-0'}
                     `}
                 >
-                    <div className="p-2">
+                    <div className="p-2 bg-[#D9D9D9]/22">
                         <SubtopicosMelhorias melhorias={resultado.melhorias_sugeridas} />
                     </div>
                 </div>
@@ -151,8 +151,8 @@ const Formulario = () => {
                         ${isVisaoEmpresaExpanded ? 'max-h-[9999px]' : 'max-h-0'}
                     `}
                 >
-                    <div className="p-2">
-                        <p><strong>Área da Empresa:</strong> {resultado.areaDaEmpresa}</p>
+                    <div className="p-2 bg-[#D9D9D9]/22">
+                        <p className="mb-4"><strong>Área da Empresa:</strong> {resultado.areaDaEmpresa}</p>
                         <SubtopicosVisaoEmpresa visao={resultado.visao_da_empresa} />
                     </div>
                 </div>
@@ -185,41 +185,47 @@ const SubtopicosAnaliseCompleta = ({ analise }) => {
                         <li key={index}>{ponto}</li>
                     ))}
                 </ul>
-                 <hr className="h-0.5 bg-[#707070]/50 border-0" />
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsPontosFracosExpanded(!isPontosFracosExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsPontosFracosExpanded(!isPontosFracosExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Pontos Fracos
-                    <span>{isPontosFracosExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isPontosFracosExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isPontosFracosExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {analise.pontos_fracos.map((ponto, index) => (
                         <li key={index}>{ponto}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsResumoCandidatoExpanded(!isResumoCandidatoExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsResumoCandidatoExpanded(!isResumoCandidatoExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Resumo do Candidato
-                    <span>{isResumoCandidatoExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isResumoCandidatoExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isResumoCandidatoExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <p className="p-2 text-[#4A4A4A]">{analise.resumo_candidato}</p>
+                <p className="p-2 text-[#4A4A4A] mb-4">{analise.resumo_candidato}</p>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsResumoCurriculoExpanded(!isResumoCurriculoExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsResumoCurriculoExpanded(!isResumoCurriculoExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Resumo do Currículo
-                    <span>{isResumoCurriculoExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isResumoCurriculoExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isResumoCurriculoExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <p className="p-2 text-[#4A4A4A]">{analise.resumo_curriculo}</p>
+                <p className="p-2 text-[#4A4A4A] mb-4">{analise.resumo_curriculo}</p>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
         </div>
     );
@@ -233,60 +239,68 @@ const SubtopicosMelhorias = ({ melhorias }) => {
 
     return (
         <div className="space-y-4">
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsEnsinoSuperiorExpanded(!isEnsinoSuperiorExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsEnsinoSuperiorExpanded(!isEnsinoSuperiorExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Ensino Superior
-                    <span>{isEnsinoSuperiorExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isEnsinoSuperiorExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isEnsinoSuperiorExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {melhorias.ensino_superior.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsHabilidadesExpanded(!isHabilidadesExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsHabilidadesExpanded(!isHabilidadesExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Habilidades Sugeridas
-                    <span>{isHabilidadesExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isHabilidadesExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isHabilidadesExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {melhorias.habilidades_sugeridas.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsProximosPassosExpanded(!isProximosPassosExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsProximosPassosExpanded(!isProximosPassosExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Próximos Passos
-                    <span>{isProximosPassosExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isProximosPassosExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isProximosPassosExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {melhorias.proximos_passos.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsRecomendacoesGeraisExpanded(!isRecomendacoesGeraisExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsRecomendacoesGeraisExpanded(!isRecomendacoesGeraisExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Recomendações Gerais
-                    <span>{isRecomendacoesGeraisExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isRecomendacoesGeraisExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isRecomendacoesGeraisExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {melhorias.recomendacoes_gerais.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
         </div>
     );
@@ -302,80 +316,92 @@ const SubtopicosVisaoEmpresa = ({ visao }) => {
 
     return (
         <div className="space-y-4">
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsAlinhamentoMercadoExpanded(!isAlinhamentoMercadoExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsAlinhamentoMercadoExpanded(!isAlinhamentoMercadoExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Alinhamento com o Mercado
-                    <span>{isAlinhamentoMercadoExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isAlinhamentoMercadoExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isAlinhamentoMercadoExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <p className="p-2 text-[#4A4A4A]">{visao.alinhamento_mercado}</p>
+                <p className="p-2 text-[#4A4A4A] mb-4">{visao.alinhamento_mercado}</p>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsPontosFocaisExpanded(!isPontosFocaisExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsPontosFocaisExpanded(!isPontosFocaisExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Pontos Focais para Entrevista
-                    <span>{isPontosFocaisExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isPontosFocaisExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isPontosFocaisExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {visao.pontos_focais_entrevista.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsPosicoesSugeridasExpanded(!isPosicoesSugeridasExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsPosicoesSugeridasExpanded(!isPosicoesSugeridasExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Posições Sugeridas
-                    <span>{isPosicoesSugeridasExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isPosicoesSugeridasExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isPosicoesSugeridasExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {visao.posicoes_sugeridas.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsPotencialLongoPrazoExpanded(!isPotencialLongoPrazoExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsPotencialLongoPrazoExpanded(!isPotencialLongoPrazoExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Potencial a Longo Prazo
-                    <span>{isPotencialLongoPrazoExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isPotencialLongoPrazoExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isPotencialLongoPrazoExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <p className="p-2 text-[#4A4A4A]">{visao.potencial_longo_prazo}</p>
+                <p className="p-2 text-[#4A4A4A] mb-4">{visao.potencial_longo_prazo}</p>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsVisaoContratacaoNegativaExpanded(!isVisaoContratacaoNegativaExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsVisaoContratacaoNegativaExpanded(!isVisaoContratacaoNegativaExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Visão de Contratação Negativa
-                    <span>{isVisaoContratacaoNegativaExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isVisaoContratacaoNegativaExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isVisaoContratacaoNegativaExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {visao.visao_contratacao_negativa.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
 
-            <div className="bg-[#EFEFEF] p-4 rounded-md cursor-pointer" onClick={() => setIsVisaoContratacaoPositivaExpanded(!isVisaoContratacaoPositivaExpanded)}>
-                <h4 className="font-bold flex justify-between items-center">
+            <div className="p-2 pb-0.5 rounded-md cursor-pointer" onClick={() => setIsVisaoContratacaoPositivaExpanded(!isVisaoContratacaoPositivaExpanded)}>
+                <h4 className="flex justify-between items-center pb-2 text-[#4A4A4A]">
                     Visão de Contratação Positiva
-                    <span>{isVisaoContratacaoPositivaExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[#707070]">{isVisaoContratacaoPositivaExpanded ? '▲' : '▼'}</span>
                 </h4>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isVisaoContratacaoPositivaExpanded ? 'max-h-[9999px]' : 'max-h-0'}`}>
-                <ul className="list-disc ml-6 space-y-2 text-[#4A4A4A]">
+                <ul className="list-disc ml-8 space-y-2 text-[#4A4A4A] mb-4">
                     {visao.visao_contratacao_positiva.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
+                <hr className="h-0.5 bg-[#707070]/50 border-0" />
             </div>
         </div>
     );

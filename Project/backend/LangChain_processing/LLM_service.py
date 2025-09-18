@@ -111,7 +111,7 @@ O objeto JSON deve conter EXATAMENTE as seguintes chaves, com seus respectivos t
 prompt_visao_empresas = ChatPromptTemplate.from_messages(
             [
                   ("system", comportamento_visao_empresa),
-                  ("human", "Analise o currículo e a análise já feita com foco na área de atuação da empresa. "
+                  ("human", "Analise o currículo e a análise já feita com foco na área de atuação da empresa SEM UTILIZAR MARKDOWN. "
                   "Use este contexto completo para fornecer uma avaliação estratégica.\n\n"
                   "Área da Empresa: {area_da_empresa}\n"
                   "Currículo do Candidato:\n{texto_curriculo}\n"

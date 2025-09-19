@@ -1,6 +1,6 @@
 ## Analisador de currículos
 
-###### Este é um projeto que recebe um arquivo (PDF, DOCX ou TXT) de currículo e retorna insights sobre o currículo analisado.
+###### Este é um projeto que recebe um arquivo (PDF) de currículo e retorna insights sobre o currículo analisado.
 
 Analisa o perfil profissional de um indivíduo e oferece insights para o seu desenvolvimento, com base no currículo. Além disso, apresenta a visão de empresas de qualquer área sobre esse profissional.
 

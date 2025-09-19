@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react';
 const ArquivoPlaceHolder = ({ aoAlterar }) => {
   const fileInputRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
-  // 1. Novo estado para armazenar o nome do arquivo selecionado
   const [fileName, setFileName] = useState('');
 
   const handleButtonClick = () => {
@@ -12,7 +11,6 @@ const ArquivoPlaceHolder = ({ aoAlterar }) => {
 
   const handleFileChange = (file) => {
     if (file) {
-      // 2. Atualiza o estado com o nome do arquivo
       setFileName(file.name);
       aoAlterar(file);
     }
@@ -60,8 +58,7 @@ const ArquivoPlaceHolder = ({ aoAlterar }) => {
         onClick={handleButtonClick}
         className="bg-[#6888B0] text-white py-3 px-6 rounded-lg shadow-md cursor-pointer"
       >
-        {/* 3. Exibição condicional: mostra o nome do arquivo ou o texto padrão */}
-        {fileName ? fileName : 'Selecionar arquivo PDF, DOCX ou TXT'}
+        {fileName ? fileName : 'Selecionar arquivo .pdf'}
       </button>
 
       <p className="text-sm text-gray-500 mt-2">

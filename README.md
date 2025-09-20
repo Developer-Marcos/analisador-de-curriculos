@@ -101,3 +101,15 @@ python app.py
 Por fim, na página, selecione a área da empresa e carregue o currículo no campo indicado.<br>
 Basta enviar e aguardar o processamento.<br>
 ###### O processamento pode demorar um pouco, pois o modelo de LLM é chamado 3 vezes para executar tarefas complexas e também depende da sua conexão com a internet.
+
+<hr>
+
+### Imagens da aplicação:
+###### Tela inicial
+![TelaInicial](images/image1.png)
+###### Exemplo de resultado
+![ExemploDeResultado](images/image2.png)
+
+<hr>
+
+###### Mais detalhes podem ser vistos ao rodar a aplicação.
